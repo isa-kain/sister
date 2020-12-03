@@ -49,7 +49,7 @@ opt = new_occulter_from_matlab_file( opt ) ;
 % is blocking 1.3% only. These settings are consistent with  WFIRST and HabEx mission specs.
 
 % Sampling of the pupil (16 is fast enough for creating the PSF basis on a laptop)
-opt.Nx_pupil_pix = 100 ;
+opt.Nx_pupil_pix = 16 ;
 
 %%%%%%%%%%%%%%%%%%%%
 % Wavelength range %
@@ -82,6 +82,7 @@ opt.r_stationary_mas = 120 ; % Roman -> 65, from Starshade Rendezvous report
 %%%%%%%%%%%%
 % Pixel scale of the camera. Default:
 opt.pix_camera_mas = 1 ;
+opt.px_psf_mas = 3;
 
 %%%%%%%%%%%%%%%%%%
 % Detector noise %
@@ -126,7 +127,7 @@ opt.solar_glint.r_m = 28.6 ; % meters. Default: 7.5 m (adequate for NI2, 26 m di
 %%%%%%%%%%%%%%%%%%%%
 opt.scene.do = 1 ; % Default value is 0. It would read a pre-existing scene
 % Field of View of the astrophysical scene in mas
-opt.scene.fov_diam_mas = 255 ; % Default is 5000 mas
+opt.scene.fov_diam_mas = 15385 ; % Default is 5000 mas
 % Pixel scale on the scene
 opt.pix_scene_mas = 1 ; 
 
@@ -145,7 +146,7 @@ opt.star.name = 'Sun' ;
 opt.star.type = 'Sun' ; % Default is 'Sun'. Non case-sensitive.
 opt.star.distance_to_earth_pc = 1.3 ; % Default is 10 pc
 % Besides the star type, it's necessary to set its brightness
-opt.star.app_mag_v = 5.98 ; % Sun at 17 pc. Default 4.81 (Sun at 10 pc, http://mips.as.arizona.edu/~cnaw/sun.html)
+opt.star.app_mag_v = 0.4 ; % Sun at 17 pc. Default 4.81 (Sun at 10 pc, http://mips.as.arizona.edu/~cnaw/sun.html)
 
 %%%%%%%%%%%
 % Planets %
@@ -158,10 +159,11 @@ opt.planets.add.do = 1 ; % Default is 0
 % opt.planets.add.pos_arc_ra_mas = 65 / sqrt( 2 ) ;
 % opt.planets.add.pos_arc_dec_mas = 65 / sqrt( 2 ) ;
 % opt.planets.add.flux_ratio = 4.3e-11 ; 
-opt.planets.add.planet_type = {'Earth', 'Venus', 'Jupiter'};
-opt.planets.add.pos_arc_ra_au = [1, 1, 1] ;
-opt.planets.add.pos_arc_dec_au = [1, 0, -1] ;
-opt.planets.add.phase_angle_deg = [ 90, 120, 150 ] ;
+opt.planets.add.planet_type = {'Earth', 'Earth'};
+opt.planets.add.pos_arc_ra_au = [1*sin(deg2rad(45)), 10*1] ;
+opt.planets.add.pos_arc_dec_au = [1*cos(deg2rad(45)), 10*0] ;
+% opt.planets.add.phase_angle_deg = [ 45, 90, 135, 180 ] ;
+% opt.planets.add.phase_function = 'Lambertian' ;
 
 %%%%%%%%%%%%
 % Exo-zodi %
@@ -183,9 +185,9 @@ opt.plot.starshade_circle.do = 1 ;
 % Signal+noise (see starshade_band_imaging.m, % Combinations of signal and noise, for other options. Multiple options are fine: e.g., [ 1, 3, 4 ]. 3 figures will be created )
 opt.plot.combination_list = 1 ;
 % Optional labels for planets (as many as planets)
-opt.plot.planet_label = { 'E', 'V', 'J' } ; % Default B, C, ...
+opt.plot.planet_label = { 'E1', 'E10'} ; % Default B, C, ...
 % Positional shift for the label of each planet wrt the position of the planet (times FWHM)
-opt.plot.planet_label_pos_fwhm = [ 0.8, 0.8, 0.8 ] ; % Default all 1
+opt.plot.planet_label_pos_fwhm = [ 0.8, 0.8 ] ; % Default all 1
 % A maximum limit for the linear color scale (noise is the RMS of the noise contribution over all the FOV). If the image is noiseless, the plotting script
 % will choose a default min/max. Alternatively, use opt.plot.min and opt.plot.max to set the range of the plot to any specified value.
 opt.plot.n_sigma_noise = 10 ; % Default is 10

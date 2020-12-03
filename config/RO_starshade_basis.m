@@ -31,6 +31,8 @@ function opt = RO_starshade_basis( opt )
 % Spinning/Non-spinning starshade mode.
 opt.starshade.mode = 'spinning' ; % 'spinning', 'non-spinning'
 opt.starshade.nominal_filename = 'UH17' ;
+opt.starshade.number_of_petals = 48 ;
+opt = new_occulter_from_matlab_file( opt ) ;
 
 %%%%%%%%%%%%%
 % Telescope %

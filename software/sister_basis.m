@@ -266,7 +266,7 @@ wrk_lmbd = check_spinning_sister_basis( opt ) ;
 
 idx_psf = opt.r_0_mas : opt.psf_spacing_mas : opt.r_1_mas ;
 n_idx = numel( idx_psf ) ;
-  for idx = idx_psf
+  parfor idx = idx_psf % PARFOR 2
   % Checking if the file exists, and if so, skipping that case
   fl_nm_psf_1 = sprintf( '%sstarshade_spinning_psf_%04d_%04d_%04d_nm_Nx%i', opt.spinning_path, opt.lambda_1_nm, opt.lambda_2_nm,opt.delta_lambda_nm, opt.nx_pupil_pix ) ;
   % For delta_lambda_nm that is not an integer
@@ -284,7 +284,7 @@ n_idx = numel( idx_psf ) ;
     end
     if ( exist( fl_nm_psf, 'file' ) == 2 ) && ~( opt.redo ), continue, end
   starshade_spinning_local( opt, idx, fl_nm_psf ) ;
-  end
+  end % END PARFOR 2
 
 function starshade_spinning_local( opt, r_psf, fl_nm_psf )
 % It creates a basis of PSF for a spinning Starshade
